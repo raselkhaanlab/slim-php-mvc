@@ -30,15 +30,35 @@ return [
     |
     */
     'connections' => [
-        'mysql' => [
-            'driver' => 'mysql',
-            'host' => '127.0.0.1',
-            'port' => 3306,
-            'database' => 'lotto_db_dev',
-            'username' => 'root',
-            'password' => '',
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci'
-        ],
+        'mysql'=>[
+            // Name of database driver or IConnectionAdapter class
+            'driver'    => 'mysql',
+            'host'      => 'localhost',
+            'port'      =>'3306', 
+            'database'  => 'lotto_db_dev',
+            'username'  => 'root',
+            'password'  => '',
+        
+            // Optional
+            'charset'   => 'utf8',
+        
+            // Optional
+            'collation' => 'utf8_unicode_ci',
+        
+            // Table prefix, optional
+            'prefix'    => '_',
+        
+            // PDO constructor options, optional
+            'options'   => [
+                PDO::ATTR_TIMEOUT => 5,
+                PDO::ATTR_CASE => PDO::CASE_NATURAL,
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_ORACLE_NULLS => PDO::NULL_NATURAL,
+                PDO::ATTR_STRINGIFY_FETCHES => false,
+                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::ATTR_PERSISTENT => true,
+                PDO::ATTR_DEFAULT_FETCH_MODE =>PDO::FETCH_ASSOC
+            ],
+        ]
     ],
 ];

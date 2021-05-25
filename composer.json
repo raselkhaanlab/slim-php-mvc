@@ -8,13 +8,10 @@
             "email": "raselkhanlab@gmail.com"
         }
     ],
-    "require": {},
-    
     "autoload": {
         "psr-4": {
             "RKO\\": "framework/",
             "App\\":"app/"
         }
     }
-    
 }

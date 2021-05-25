@@ -11,9 +11,10 @@ class DBConnection{
             $port = $connection['port'];
             $dbname= $connection['database'];
             $charset = $connection['charset'];
-            $con = "$driver:host=$host;dbname=$dbname;port=$port;charset=$charset";
-            $pdo = new \PDO($con,$connection['username'],$connection['password']);
-            $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $prefix = $connection['prefix'];
+            $collation = $connection['collation'];
+            $con = "$driver:host=$host;dbname=$dbname;port=$port;charset=$charset;prefix=$prefix;collation=$collation";
+            $pdo = new \PDO($con,$connection['username'],$connection['password'],$connection['options']);
             $this->pdo =$pdo;
         }catch(\PDOException $e)
         {

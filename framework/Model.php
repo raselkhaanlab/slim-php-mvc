@@ -17,7 +17,6 @@ class Model extends DBConnection{
         else{
             $this->table= $modelName."s";
         }
-        $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
         $this->db= $this->pdo;
     }
     public function is_assoc(array $array){
@@ -39,7 +38,7 @@ class Model extends DBConnection{
         $s= implode(',',$fields);
         $stmt = $this->db->prepare("SELECT $s FROM $this->table");
         $stmt->execute();
-        return $stmt->fetchAll( \PDO::FETCH_ASSOC);
+        return $stmt->fetchAll();
     }
     protected function get($fields=['*']){
         $s= implode(',',$fields);
@@ -54,7 +53,7 @@ class Model extends DBConnection{
             $stmt->bindValue($position,$_val);
         }
         $stmt->execute();
-        return $stmt->fetchAll( \PDO::FETCH_ASSOC);
+        return $stmt->fetchAll();
     }
 
     public function limit($limit,$offset=null){
