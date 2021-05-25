@@ -1,6 +1,7 @@
 <?php
-//== application constant variable set for access across the application ==
 define("ROOT",__DIR__);
+require_once ROOT."/framework/EnvManager.php";
+//== application constant variable set for access across the application ==
 define("APP_PATH",__DIR__."/app");
 define('CONFIG_PATH',__DIR__."/config");
 define("VIEWS_PATH",__DIR__."/views");
@@ -11,7 +12,7 @@ define('KERNEL',require APP_PATH."/Middleware/kernel.php");
 //=================
 session_name(APP_CONFIG['session-name']);
 session_start();
-header("X-Powered-By: RKO");
+header("X-Powered-By:".APP_CONFIG['app_title']);
 require_once 'vendor/autoload.php';
 require_once 'route.php';
 exit;

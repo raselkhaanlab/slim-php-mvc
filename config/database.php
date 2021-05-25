@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'default' => 'mysql',
+    'default' => env('default','mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -32,21 +32,20 @@ return [
     'connections' => [
         'mysql'=>[
             // Name of database driver or IConnectionAdapter class
-            'driver'    => 'mysql',
-            'host'      => 'localhost',
-            'port'      =>'3306', 
-            'database'  => 'lotto_db_dev',
-            'username'  => 'root',
-            'password'  => '',
+            'driver'    => env('driver','mysql'),
+            'host'      => env('host','localhost'),
+            'port'      =>env('port','3306'), 
+            'database'  => env('database',''),
+            'dbuser'  => env('dbuser','root'),
+            'dbpassword'  => env('dbpassword',''),
+            // Optional
+            'charset'   => env('charset','utf8'),
         
             // Optional
-            'charset'   => 'utf8',
-        
-            // Optional
-            'collation' => 'utf8_unicode_ci',
+            'collation' => env('collation','utf8_unicode_ci'),
         
             // Table prefix, optional
-            'prefix'    => '_',
+            'prefix'    => env('prefix',''),
         
             // PDO constructor options, optional
             'options'   => [

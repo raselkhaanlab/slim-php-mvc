@@ -11,7 +11,7 @@
     |
     */
 
-    "app_title"=>"application name",
+    "app_title"=>env('app_title',"SLIM PHP MVC"),
         /*
     |--------------------------------------------------------------------------
     | sub-root
@@ -24,7 +24,7 @@
     |
     */
 
-    "sub-root"=>"slim-php-mvc",
+    "sub-root"=>env('sub-root',""),
      /*
     |--------------------------------------------------------------------------
     | session name
@@ -36,6 +36,6 @@
     | any other location as required by the application or its packages.
     |
     */
-    "session-name"=>"__rphpXfc"
+    "session-name"=>env("session-name","__rphpXfc")
     
  ];

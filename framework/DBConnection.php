@@ -14,7 +14,7 @@ class DBConnection{
             $prefix = $connection['prefix'];
             $collation = $connection['collation'];
             $con = "$driver:host=$host;dbname=$dbname;port=$port;charset=$charset;prefix=$prefix;collation=$collation";
-            $pdo = new \PDO($con,$connection['username'],$connection['password'],$connection['options']);
+            $pdo = new \PDO($con,$connection['dbuser'],$connection['dbpassword'],$connection['options']);
             $this->pdo =$pdo;
         }catch(\PDOException $e)
         {
