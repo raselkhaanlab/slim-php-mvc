@@ -1,0 +1,20 @@
+{
+    "name": "raselkhaan/slim-php-mvc",
+    "description": "This is a small project for handle php application request response into mvc pattern. Very small footprint and very easy to use.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Rasel khan",
+            "email": "raselkhanlab@gmail.com"
+        }
+    ],
+    "require": {},
+    
+    "autoload": {
+        "psr-4": {
+            "RKO\\": "framework/",
+            "App\\":"app/"
+        }
+    }
+    
+}
