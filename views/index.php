@@ -11,6 +11,7 @@
         <P>You get the flavour of mvc architecture.</P>
         <P>Routing,Middlware,Controller,Request,Response,Model and View are the basic feature of this application</P>
         <P>You can extends the functionality by your need's</P>
+        <a href="https://github.com/raselkhaanlab/slim-php-mvc" target="_blank">GITHUB LINK</a>
     </div>
 <?php include "partials/footer.php"?>
 </body>

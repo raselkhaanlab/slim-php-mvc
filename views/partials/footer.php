@@ -1,3 +1,3 @@
 <footer>
-    <h1 style="display:flex;justify-content:center;color:green;background:black">copyright @RKO</h1>
+    <h3 style="display:flex;justify-content:center;color:green;background:black">Rasel khaan@slim-php-mvc</h3>
 </footer>
