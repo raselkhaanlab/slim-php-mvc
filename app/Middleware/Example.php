@@ -1,7 +1,6 @@
 <?php
 namespace App\Middleware;
-use RKO\IMiddleWare;
-class Example  implements IMiddleWare{
+class Example  extends BaseMiddleWare{
     public function handle($req,$res,$next){
         //DO SOME CHECK VALIDATION OR OTHER MIDDLE PROCESS BEFORE ENTER INTO CONTROLLER
         //IN CASE OF ENTER INTO CONTROLLER PLEASE RETURN $next() METHOD CALL;

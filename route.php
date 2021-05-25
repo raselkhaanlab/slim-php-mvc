@@ -5,7 +5,7 @@ $router = new Router;
 /*
 @ define your route here
 */
-$router->get("/",[Home::class,'index']);
+$router->get("/",[Home::class,'index'],['example']);
 
 $router->fallback([NotFound::class,'notFound']);
 $router->methodNotFound([NotFound::class,'methodNotFound']);
