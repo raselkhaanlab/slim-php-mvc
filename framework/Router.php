@@ -13,13 +13,40 @@ class Router {
     private  $request;
     private  $response;
     private  $kernel;
-    public function __construct(){
-        $this->config = APP_CONFIG;
-        $this->request= new Request();
-        $this->response= new Response();
-        $this->kernel = KERNEL;
+    // Hold the class instance.
+    private static $instance = null;
+  
+  // The constructor is private
+  // to prevent initiation with outer code.
+  private function __construct(){
+    $this->config = APP_CONFIG;
+    $this->request= new Request();
+    $this->response= new Response();
+    $this->kernel = KERNEL;
+}
+  // The object is created from within the class itself
+  // only if the class has no instance.
+  public static function initialize()
+  {
+    if (self::$instance == null)
+    {
+      self::$instance = new self();
     }
-    public  function fallback($fn){
+    return self::$instance;
+  }
+ public static function __callStatic($method,$args){
+     $instance = self::$instance;
+     if(self::$instance ===null){
+        $instance = self::getInstance();
+     }
+     if(method_exists(__CLASS__,$method)){
+         call_user_func_array([$instance,$method],$args);
+     }
+     else{
+         throw new \Exception("$method DOES NOT EXISTS ON".self." class");
+     }
+ }
+    private  function fallback($fn){
         $this->fallbacks[] = $fn;
     }
     private function resolveMiddlewareFromKernel(array $middlewares=[]){
@@ -42,34 +69,34 @@ class Router {
         }
         return $_r;
     }
-    public  function methodNotFound($fn){
+    private  function methodNotFound($fn){
         $this->methodNotFounds[] = $fn;
     }
-    public  function get($url,$fn,$middlewares=[]){
+    private  function get($url,$fn,$middlewares=[]){
         $url =$this->prepareUrl($url);
         $middlewares = $this->resolveMiddlewareFromKernel($middlewares);
         $fn ['middlewares'] =$middlewares;
         $this->getRoutes[$url]=$fn;
     }
-    public  function post($url,$fn,$middlewares=[]){
+    private  function post($url,$fn,$middlewares=[]){
         $url =$this->prepareUrl($url);
         $middlewares = $this->resolveMiddlewareFromKernel($middlewares);
         $fn ['middlewares'] =$middlewares;
         $this->postRoutes[$url]=$fn;
     }
-    public  function patch($url,$fn,$middlewares=[]){
+    private  function patch($url,$fn,$middlewares=[]){
         $url =$this->prepareUrl($url);
         $middlewares = $this->resolveMiddlewareFromKernel($middlewares);
         $fn ['middlewares'] =$middlewares;
         $this->patchRoutes[$url]=$fn;
     }
-    public  function put($url,$fn,$middlewares=[]){
+    private  function put($url,$fn,$middlewares=[]){
         $url =$this->prepareUrl($url);
         $middlewares = $this->resolveMiddlewareFromKernel($middlewares);
         $fn ['middlewares'] =$middlewares;
         $this->putRoutes[$url]=$fn;
     }
-    public  function delete($url,$fn,$middlewares=[]){
+    private  function delete($url,$fn,$middlewares=[]){
         $url =$this->prepareUrl($url);
         $middlewares = $this->resolveMiddlewareFromKernel($middlewares);
         $fn ['middlewares'] =$middlewares;
@@ -98,37 +125,37 @@ class Router {
         return ($getExists|| $postExists || $putExists || $patchExists || $deleteExists);
     }
     private function  notFound(){
-        $method = $this->request->method();
-        $uri = $this->request->requestUri();
-        if($this->isUriFound($uri)&& ($this->request->xhr() || $this->request->wantJson())){
+        $method = $this->request->getMethod();
+        $uri = $this->request->getRequestUri();
+        if($this->isUriFound($uri)&& ($this->request->isXhr() || $this->request->wantJson())){
             http_response_code(405);
-            return $this->response->json([
+            return $this->response->sendJson([
                 'message'=>'method not found',
                 'method' =>$method,
                 'url'=>$uri,
                 'status'=>405
             ]);
         }
-        elseif($this->isUriFound($uri)&& !($this->request->xhr() || $this->request->wantJson())){
+        elseif($this->isUriFound($uri)&& !($this->request->isXhr() || $this->request->wantJson())){
             \http_response_code(405);
             return "METHOD NOT FOUND";
         }
-        elseif(($this->request->xhr() || $this->request->wantJson())){
+        elseif(($this->request->isXhr() || $this->request->wantJson())){
             \http_response_code(404);
-            return $this->response->json([
+            return $this->response->sendJson([
                 'message'=>'not found',
                 'method' =>$method,
                 'url'=>$uri,
                 'status'=>404
             ]);
         }
-        elseif(!($this->request->xhr() || $this->request->wantJson())){
+        elseif(!($this->request->isXhr() || $this->request->wantJson())){
             \http_response_code(404);
             return "NOT FOUND";
         }
     }
     private function handleNotFound(&$fn){
-            $uri = $this->request->requestUri();
+            $uri = $this->request->getRequestUri();
             if($this->isUriFound($uri) && count($this->methodNotFounds)){
                 \http_response_code(405);
                 $fn = $this->methodNotFounds[0];
@@ -156,9 +183,9 @@ class Router {
             return $this->handleMiddleWare($middlewares,$controller,$action,$size,$n);
         });
     }
-    public  function resolve(){
-        $method = $this->request->method();
-        $uri = $this->request->requestUri();
+    private  function resolve(){
+        $method = $this->request->getMethod();
+        $uri = $this->request->getRequestUri();
         switch ($method){
             case 'GET':
                 $fn = array_key_exists($uri,$this->getRoutes)?$this->getRoutes[$uri]:null;

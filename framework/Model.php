@@ -19,7 +19,7 @@ class Model extends DBConnection{
         }
         $this->db= $this->pdo;
     }
-    public function is_assoc(array $array){
+    protected final function is_assoc(array $array){
         $keys = array_keys($array);
         $res=true;
         foreach($keys as $value){
@@ -29,18 +29,18 @@ class Model extends DBConnection{
         }
         return $res;
     }
-    public function join($table,$condition="",$joinType=""){
+    protected final function join($table,$condition="",$joinType=""){
         $partialSql= "$joinType JOIN $table ON $condition"." ";
         $this->sql .= $partialSql;
         return $this;
     }
-    protected function getAll($fields=['*']){
+    protected final function getAll($fields=['*']){
         $s= implode(',',$fields);
         $stmt = $this->db->prepare("SELECT $s FROM $this->table");
         $stmt->execute();
         return $stmt->fetchAll();
     }
-    protected function get($fields=['*']){
+    protected final function get($fields=['*']){
         $s= implode(',',$fields);
         $sql = "select $s from $this->table";
         $sql .=" ".$this->sql;
@@ -56,7 +56,7 @@ class Model extends DBConnection{
         return $stmt->fetchAll();
     }
 
-    public function limit($limit,$offset=null){
+    protected final function limit($limit,$offset=null){
         if(is_null($offset)){
             $this->sql .=" limit ? ";
             array_push($this->bindValues,$limit);
@@ -68,7 +68,7 @@ class Model extends DBConnection{
         }
         return $this;
     }
-    public function conditional($condition,$keyPrefix=""){
+    private function conditional($condition,$keyPrefix=""){
         if(!$keyPrefix){
             $keyPrefix = $this->table;
         }
@@ -151,7 +151,7 @@ class Model extends DBConnection{
         }
         return [$newKeys,$newValues,$prepareCondition];
     }
-    public function  where($condition){
+    protected final function  where($condition){
         $this->sql= $this->sql." "."where"." ";
         $returnData=$this->conditional($condition);
         $newKeys = $returnData[0];
@@ -162,7 +162,7 @@ class Model extends DBConnection{
         $this->sql .= $prepareCondition;
         return $this;
     }
-    protected function delete(){
+    protected final function delete(){
         $sql= "DELETE FROM $this->table";
         $sql .=" ".$this->sql;
         try{
@@ -181,7 +181,7 @@ class Model extends DBConnection{
             throw $e;
         }
     }
-    protected function update($setValues){
+    protected final function update($setValues){
         if(!$this->is_assoc($setValues)){
             throw new \Exception('value must be passed as array(key=>value)');
         }
@@ -218,7 +218,7 @@ class Model extends DBConnection{
             throw $e;
         }
     }
-    protected function insert($data){
+    protected final function insert($data){
         if(!$this->is_assoc($data)){
             throw new \Exception('insert value must be passed as array(key=>value)');
         }
@@ -239,7 +239,7 @@ class Model extends DBConnection{
             throw $e;
         }
     }
-    protected function batchInsert($data){
+    protected final function batchInsert($data){
         if(!\is_array($data)){
             throw new \Exception('insert value must be passed as array');
         }

@@ -1,5 +1,5 @@
 <?php
 namespace App\Middleware;
-use RKO\IMiddleWare;
-abstract class BaseMiddleWare  implements IMiddleWare{
+use RKO\MiddleWare;
+abstract class BaseMiddleWare  extends MiddleWare{
 }
