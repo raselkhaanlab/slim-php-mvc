@@ -8,7 +8,6 @@ use App\Model\User;
          $this->user= new User;
      }
      public function index($req , $res){
-        //  return $res->sendJson($this->user->getUsers());
          return $res->renderView('index',$this->data);
     }
  }

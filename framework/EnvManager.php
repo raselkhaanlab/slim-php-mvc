@@ -26,7 +26,10 @@ try{
         $handle = fopen("$envPath", "r");
         if($handle){
             while (($line = fgets($handle)) !== false) {
-                putenv(trim($line));
+                $isComment= preg_match("/^#.*/i",$line);
+                 if(!$isComment){
+                    putenv(trim($line));
+                 }
             }
             fclose($handle);
         }
