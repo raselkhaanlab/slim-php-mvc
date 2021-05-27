@@ -1,10 +1,11 @@
 <?php
-use RKO\Router;
+use RKO\Router as Route;
 use App\Controller\{Home,NotFound};
 /*
 @ define your route here
 */
-Router::get("/",[Home::class,'index'],['example']);
+Route::get("/",[Home::class,'index'],['example']);
 
-Router::fallback([NotFound::class,'notFound']);
-Router::methodNotFound([NotFound::class,'methodNotFound']);
+Route::fallback([NotFound::class,'notFound']);
+Route::fallback([NotFound::class,'notFound']);
+Route::methodNotFound([NotFound::class,'methodNotFound']);
