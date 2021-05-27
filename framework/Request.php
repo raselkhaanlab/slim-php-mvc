@@ -27,14 +27,6 @@ class Request {
         }
     
     }
-    public final function setFlashArray($name="", array $message=[]){
-        if (!empty($name) && count($message)){
-            if (!empty($_SESSION[$name])) {
-                unset($_SESSION[$name]);
-            }
-            $_SESSION[$name] = $message;
-        }
-    }
     public final function sessionRegenerate(){
         \session_regenerate_id();
     }

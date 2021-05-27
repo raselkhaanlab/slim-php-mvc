@@ -1,6 +1,7 @@
 <?php
 namespace RKO;
 class Response {
+    private $view;
     public final function sendJson($data=NULL){
         header('Content-type: application/json');
         return \json_encode($data);
@@ -35,7 +36,8 @@ class Response {
         $viewInfo = \pathinfo($view);
         $extension= !empty($viewInfo['extension'])?$viewInfo['extension']:"php";
         header('Content-type: text/html');
-        \extract($params);
+        $this->view = new View($params);
+        $View = $this->view;
         require VIEWS_PATH."/".$viewInfo['filename'].".".$extension;
     }
 }
